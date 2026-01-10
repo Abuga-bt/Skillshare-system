@@ -6,43 +6,46 @@
 
 @layer base {
   :root {
-    --background: 30 25% 98%;
-    --foreground: 20 14% 12%;
+    --background: 40 30% 98%;
+    --foreground: 160 30% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 20 14% 12%;
+    --card-foreground: 160 30% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 20 14% 12%;
+    --popover-foreground: 160 30% 10%;
 
-    --primary: 24 80% 50%;
+    --primary: 158 60% 35%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 30 20% 94%;
-    --secondary-foreground: 20 14% 20%;
+    --secondary: 40 25% 93%;
+    --secondary-foreground: 160 30% 15%;
 
-    --muted: 30 15% 92%;
-    --muted-foreground: 20 10% 45%;
+    --muted: 40 20% 90%;
+    --muted-foreground: 160 15% 45%;
 
-    --accent: 45 90% 55%;
-    --accent-foreground: 20 14% 12%;
+    --accent: 35 85% 55%;
+    --accent-foreground: 160 30% 10%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 30 15% 88%;
-    --input: 30 15% 88%;
-    --ring: 24 80% 50%;
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 158 60% 35%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
     /* Custom tokens */
     --star-filled: 45 100% 50%;
-    --star-empty: 30 10% 80%;
-    --avatar-border: 24 80% 50%;
-    --card-shadow: 0 4px 24px -4px hsl(20 14% 12% / 0.08);
-    --card-shadow-hover: 0 8px 32px -4px hsl(20 14% 12% / 0.12);
-    --gradient-warm: linear-gradient(135deg, hsl(24 80% 50%) 0%, hsl(45 90% 55%) 100%);
+    --star-empty: 40 10% 75%;
+    --avatar-border: 158 60% 35%;
+    --card-shadow: 0 4px 20px -4px hsl(160 30% 10% / 0.06);
+    --card-shadow-hover: 0 8px 30px -4px hsl(160 30% 10% / 0.1);
+    --gradient-brand: linear-gradient(135deg, hsl(158 60% 35%) 0%, hsl(158 50% 45%) 100%);
+    --gradient-warm: linear-gradient(135deg, hsl(35 85% 55%) 0%, hsl(45 90% 60%) 100%);
+    --success: 158 60% 40%;
+    --warning: 35 85% 55%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -55,39 +58,41 @@
   }
 
   .dark {
-    --background: 20 14% 8%;
-    --foreground: 30 20% 95%;
+    --background: 160 25% 8%;
+    --foreground: 40 25% 95%;
 
-    --card: 20 14% 12%;
-    --card-foreground: 30 20% 95%;
+    --card: 160 25% 12%;
+    --card-foreground: 40 25% 95%;
 
-    --popover: 20 14% 12%;
-    --popover-foreground: 30 20% 95%;
+    --popover: 160 25% 12%;
+    --popover-foreground: 40 25% 95%;
 
-    --primary: 24 80% 55%;
-    --primary-foreground: 20 14% 8%;
+    --primary: 158 55% 45%;
+    --primary-foreground: 160 30% 8%;
 
-    --secondary: 20 14% 18%;
-    --secondary-foreground: 30 20% 90%;
+    --secondary: 160 20% 18%;
+    --secondary-foreground: 40 25% 90%;
 
-    --muted: 20 14% 18%;
-    --muted-foreground: 30 15% 55%;
+    --muted: 160 20% 18%;
+    --muted-foreground: 40 15% 55%;
 
-    --accent: 45 90% 55%;
-    --accent-foreground: 20 14% 8%;
+    --accent: 35 85% 55%;
+    --accent-foreground: 160 30% 8%;
 
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 20 14% 20%;
-    --input: 20 14% 20%;
-    --ring: 24 80% 55%;
+    --border: 160 20% 20%;
+    --input: 160 20% 20%;
+    --ring: 158 55% 45%;
 
     --star-filled: 45 100% 55%;
-    --star-empty: 20 10% 35%;
-    --avatar-border: 24 80% 55%;
-    --card-shadow: 0 4px 24px -4px hsl(0 0% 0% / 0.3);
-    --card-shadow-hover: 0 8px 32px -4px hsl(0 0% 0% / 0.4);
+    --star-empty: 160 10% 35%;
+    --avatar-border: 158 55% 45%;
+    --card-shadow: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+    --card-shadow-hover: 0 8px 30px -4px hsl(0 0% 0% / 0.4);
+    --success: 158 55% 45%;
+    --warning: 35 85% 55%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -116,12 +121,16 @@
 }
 
 @layer utilities {
+  .gradient-brand {
+    background: var(--gradient-brand);
+  }
+
   .gradient-warm {
     background: var(--gradient-warm);
   }
 
   .text-gradient {
-    background: var(--gradient-warm);
+    background: var(--gradient-brand);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -134,12 +143,11 @@
 
   .card-elevated:hover {
     box-shadow: var(--card-shadow-hover);
-    transform: translateY(-2px);
   }
 
   .avatar-ring {
-    background: var(--gradient-warm);
-    padding: 4px;
+    background: var(--gradient-brand);
+    padding: 3px;
     border-radius: 50%;
   }
 }
