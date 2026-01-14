@@ -51,7 +51,7 @@ const Index = () => {
           <h2 className="text-3xl font-display font-bold text-center mb-12">How It Works</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { icon: Users, title: 'Create Your Profile', desc: 'List the skills you can offer and what you're looking to learn.' },
+              { icon: Users, title: 'Create Your Profile', desc: "List the skills you can offer and what you're looking to learn." },
               { icon: ArrowRightLeft, title: 'Connect & Exchange', desc: 'Find community members with matching skills and request exchanges.' },
               { icon: Star, title: 'Build Trust', desc: 'Rate your experiences and build a reputation in your community.' },
             ].map((feature, i) => (
