@@ -108,6 +108,7 @@ const Profile = () => {
   };
 
   const fetchReviews = async () => {
+    // Only select non-sensitive reviewer columns (excluding phone)
     const { data: reviewsData, error } = await supabase
       .from('reviews')
       .select(`

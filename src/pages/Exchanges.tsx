@@ -57,6 +57,7 @@ const Exchanges = () => {
   }, [user]);
 
   const fetchExchanges = async () => {
+    // Only select non-sensitive profile columns (excluding phone)
     const { data, error } = await supabase
       .from('exchange_requests')
       .select(`
