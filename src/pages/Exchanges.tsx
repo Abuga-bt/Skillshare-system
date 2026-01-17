@@ -57,21 +57,35 @@ const Exchanges = () => {
   }, [user]);
 
   const fetchExchanges = async () => {
-    // Only select non-sensitive profile columns (excluding phone)
-    const { data, error } = await supabase
+    // Fetch exchange requests first
+    const { data: exchangeData, error } = await supabase
       .from('exchange_requests')
-      .select(`
-        *,
-        skill:skills(title),
-        requester:profiles!exchange_requests_requester_id_fkey(full_name, avatar_url),
-        provider:profiles!exchange_requests_provider_id_fkey(full_name, avatar_url)
-      `)
+      .select(`*, skill:skills(title)`)
       .or(`requester_id.eq.${user!.id},provider_id.eq.${user!.id}`)
       .order('created_at', { ascending: false });
 
-    if (!error && data) {
-      setExchanges(data as unknown as ExchangeRequest[]);
+    if (error || !exchangeData) {
+      setLoading(false);
+      return;
     }
+
+    // Get unique user IDs (both requesters and providers)
+    const userIds = [...new Set(exchangeData.flatMap(e => [e.requester_id, e.provider_id]))];
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('user_id, full_name, avatar_url')
+      .in('user_id', userIds);
+
+    const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+
+    // Combine exchanges with profiles
+    const exchangesWithProfiles = exchangeData.map(exchange => ({
+      ...exchange,
+      requester: profileMap.get(exchange.requester_id) || null,
+      provider: profileMap.get(exchange.provider_id) || null
+    }));
+
+    setExchanges(exchangesWithProfiles as unknown as ExchangeRequest[]);
     setLoading(false);
   };
 
