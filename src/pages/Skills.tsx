@@ -58,18 +58,33 @@ const Skills = () => {
   }, []);
 
   const fetchSkills = async () => {
-    // Only select non-sensitive profile columns (excluding phone)
-    const { data, error } = await supabase
+    // Fetch skills first
+    const { data: skillsData, error } = await supabase
       .from('skills')
-      .select(`
-        *,
-        profile:profiles!skills_user_id_fkey(full_name, avatar_url, location)
-      `)
+      .select('*')
       .order('created_at', { ascending: false });
 
-    if (!error && data) {
-      setSkills(data as unknown as SkillWithProfile[]);
+    if (error || !skillsData) {
+      setLoading(false);
+      return;
     }
+
+    // Get unique user IDs and fetch their profiles separately
+    const userIds = [...new Set(skillsData.map(s => s.user_id))];
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('user_id, full_name, avatar_url, location')
+      .in('user_id', userIds);
+
+    const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+
+    // Combine skills with profiles
+    const skillsWithProfiles = skillsData.map(skill => ({
+      ...skill,
+      profile: profileMap.get(skill.user_id) || null
+    }));
+
+    setSkills(skillsWithProfiles as SkillWithProfile[]);
     setLoading(false);
   };
 
