@@ -58,6 +58,7 @@ const Skills = () => {
   }, []);
 
   const fetchSkills = async () => {
+    // Only select non-sensitive profile columns (excluding phone)
     const { data, error } = await supabase
       .from('skills')
       .select(`

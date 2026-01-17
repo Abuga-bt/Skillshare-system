@@ -118,6 +118,7 @@ const Messages = () => {
       return;
     }
 
+    // Only select non-sensitive columns (excluding phone)
     const { data: profiles } = await supabase
       .from('profiles')
       .select('user_id, full_name, avatar_url')
@@ -164,6 +165,7 @@ const Messages = () => {
   };
 
   const fetchUserProfile = async (userId: string) => {
+    // Only select non-sensitive columns (excluding phone)
     const { data } = await supabase
       .from('profiles')
       .select('full_name, avatar_url')
