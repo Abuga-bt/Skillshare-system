@@ -108,18 +108,35 @@ const Profile = () => {
   };
 
   const fetchReviews = async () => {
-    // Only select non-sensitive reviewer columns (excluding phone)
+    // Fetch reviews first
     const { data: reviewsData, error } = await supabase
       .from('reviews')
-      .select(`
-        id, rating, comment, created_at,
-        reviewer:profiles!reviews_reviewer_id_fkey(full_name)
-      `)
+      .select('id, rating, comment, created_at, reviewer_id')
       .eq('reviewed_user_id', user!.id)
       .order('created_at', { ascending: false })
       .limit(5);
 
-    if (!error && reviewsData) {
+    if (error || !reviewsData) {
+      return;
+    }
+
+    // Fetch reviewer profiles separately
+    const reviewerIds = [...new Set(reviewsData.map(r => r.reviewer_id))];
+    if (reviewerIds.length > 0) {
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('user_id, full_name')
+        .in('user_id', reviewerIds);
+
+      const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+
+      const reviewsWithProfiles = reviewsData.map(review => ({
+        ...review,
+        reviewer: profileMap.get(review.reviewer_id) || null
+      }));
+
+      setReviews(reviewsWithProfiles as unknown as Review[]);
+    } else {
       setReviews(reviewsData as unknown as Review[]);
     }
 
