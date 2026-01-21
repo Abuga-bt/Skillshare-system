@@ -1,4 +1,5 @@
 import { Layout } from '@/components/Layout';
+import { Footer } from '@/components/Footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -241,6 +242,7 @@ const About = () => {
             </Card>
           </div>
         </section>
+        <Footer />
       </div>
     </Layout>
   );
