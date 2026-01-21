@@ -1,5 +1,6 @@
 import { Layout } from '@/components/Layout';
-import { 
+import { Footer } from '@/components/Footer';
+import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -164,6 +165,7 @@ const Help = () => {
             </Card>
           </div>
         </section>
+        <Footer />
       </div>
     </Layout>
   );
