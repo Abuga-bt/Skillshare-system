@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Layout } from '@/components/Layout';
+import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { 
   Users, 
@@ -209,19 +210,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t border-border">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
-              <ArrowRightLeft className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-display font-bold">SkillSwap</span>
-          </div>
-          <p className="text-muted-foreground text-sm">
-            Building stronger communities through skill sharing
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </Layout>
   );
 };
