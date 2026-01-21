@@ -10,6 +10,8 @@ import Profile from "./pages/Profile";
 import Skills from "./pages/Skills";
 import Exchanges from "./pages/Exchanges";
 import Messages from "./pages/Messages";
+import Help from "./pages/Help";
+import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +30,8 @@ const App = () => (
             <Route path="/skills" element={<Skills />} />
             <Route path="/exchanges" element={<Exchanges />} />
             <Route path="/messages" element={<Messages />} />
+            <Route path="/help" element={<Help />} />
+            <Route path="/about" element={<About />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
