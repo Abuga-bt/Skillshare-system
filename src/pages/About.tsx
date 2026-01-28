@@ -40,10 +40,10 @@ const values = [
 ];
 
 const stats = [
-  { value: "500+", label: "Skills Shared" },
-  { value: "1,200+", label: "Community Members" },
-  { value: "3,000+", label: "Exchanges Completed" },
-  { value: "50+", label: "Skill Categories" }
+  { value: "12+", label: "Skills Shared" },
+  { value: "12+", label: "Community Members" },
+  { value: "9+", label: "Exchanges Completed" },
+  { value: "20+", label: "Skill Categories" }
 ];
 
 const guidelines = [
