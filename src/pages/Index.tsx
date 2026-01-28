@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Layout } from '@/components/Layout';
-import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { 
   Users, 
@@ -79,9 +78,9 @@ const Index = () => {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 mt-16 max-w-lg mx-auto animate-slide-up" style={{ animationDelay: '0.3s' }}>
             {[
-              { value: '500+', label: 'Skills Shared' },
-              { value: '1.2K', label: 'Community Members' },
-              { value: '3K+', label: 'Exchanges Made' },
+              { value: '12', label: 'Skills Shared' },
+              { value: '12', label: 'Community Members' },
+              { value: '4+', label: 'Exchanges Made' },
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <div className="text-2xl md:text-3xl font-display font-bold text-foreground">{stat.value}</div>
@@ -210,7 +209,19 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <Footer />
+      <footer className="py-12 px-4 border-t border-border">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
+              <ArrowRightLeft className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <span className="text-xl font-display font-bold">SkillSwap</span>
+          </div>
+          <p className="text-muted-foreground text-sm">
+            Building stronger communities through skill sharing
+          </p>
+        </div>
+      </footer>
     </Layout>
   );
 };
