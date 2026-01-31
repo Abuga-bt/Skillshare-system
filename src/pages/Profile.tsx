@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { StarRating } from '@/components/StarRating';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, MapPin, Mail, Phone, Plus, Trash2, Edit2 } from 'lucide-react';
+import { Loader2, MapPin, Mail, Phone, Plus, Trash2, Edit2, MessageCircle, Image, Share2 } from 'lucide-react';
 import { SKILL_CATEGORIES, SkillCategory } from '@/lib/categories';
 import {
   Dialog,
@@ -261,6 +261,51 @@ const Profile = () => {
                 </Avatar>
                 <div className="flex-1">
                   <p className="text-sm text-muted-foreground">{user?.email}</p>
+                  
+                  {/* Share buttons */}
+                  <div className="flex items-center gap-2 mt-3">
+                    {profile?.phone && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                        onClick={() => {
+                          const phone = profile.phone?.replace(/\D/g, '');
+                          window.open(`https://wa.me/${phone}`, '_blank');
+                        }}
+                      >
+                        <MessageCircle className="w-4 h-4 text-green-600" />
+                        WhatsApp
+                      </Button>
+                    )}
+                    {profile?.avatar_url && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                        onClick={() => {
+                          if (profile.avatar_url) {
+                            window.open(profile.avatar_url, '_blank');
+                          }
+                        }}
+                      >
+                        <Image className="w-4 h-4" />
+                        View Photo
+                      </Button>
+                    )}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-2"
+                      onClick={() => {
+                        navigator.clipboard.writeText(window.location.href);
+                        toast({ title: 'Profile link copied!' });
+                      }}
+                    >
+                      <Share2 className="w-4 h-4" />
+                      Share
+                    </Button>
+                  </div>
                 </div>
               </div>
 
