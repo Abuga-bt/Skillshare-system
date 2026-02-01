@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 # SkillSwap 🤝
 
 A community-powered skill exchange platform where neighbors share knowledge, learn new skills, and build meaningful connections.
@@ -146,4 +144,3 @@ This project is open source and available under the [MIT License](LICENSE).
 <p align="center">
   Made with ❤️ for communities everywhere
 </p>
->>>>>>> e2a5835aa06fe1e08f5570b054d2928ceb54c011
