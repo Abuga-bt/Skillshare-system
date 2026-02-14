@@ -6,9 +6,11 @@ import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Loader2, Send } from 'lucide-react';
+import { Loader2, Send, Phone } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { useToast } from '@/hooks/use-toast';
 
 interface Message {
   id: string;
@@ -38,11 +40,14 @@ const Messages = () => {
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
+  const [userPhone, setUserPhone] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (user) {
       fetchConversations();
+      fetchUserPhone();
       const userParam = searchParams.get('user');
       if (userParam) {
         setSelectedUser(userParam);
@@ -51,6 +56,16 @@ const Messages = () => {
       }
     }
   }, [user, searchParams]);
+
+  const fetchUserPhone = async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from('profiles')
+      .select('phone')
+      .eq('user_id', user.id)
+      .maybeSingle();
+    setUserPhone(data?.phone || null);
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -203,6 +218,43 @@ const Messages = () => {
     setSending(false);
   };
 
+  const handleShareWhatsApp = async () => {
+    if (!userPhone) {
+      toast({
+        title: "No WhatsApp number",
+        description: "Add your phone number in your profile first.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!selectedUser || !user) return;
+    setSending(true);
+    const whatsappMsg = `📱 My WhatsApp: https://wa.me/${userPhone.replace(/[^0-9]/g, '')}`;
+    const { error } = await supabase.from('messages').insert({
+      sender_id: user.id,
+      receiver_id: selectedUser,
+      content: whatsappMsg,
+    });
+    if (!error) {
+      toast({ title: "WhatsApp number shared!" });
+    }
+    setSending(false);
+  };
+
+  const renderMessageContent = (content: string) => {
+    const waRegex = /(https:\/\/wa\.me\/\d+)/g;
+    const parts = content.split(waRegex);
+    return parts.map((part, i) =>
+      waRegex.test(part) ? (
+        <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="underline font-medium">
+          {part}
+        </a>
+      ) : (
+        <span key={i}>{part}</span>
+      )
+    );
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -296,7 +348,7 @@ const Messages = () => {
                               : "bg-secondary text-secondary-foreground rounded-bl-md"
                           )}
                         >
-                          <p className="text-sm">{msg.content}</p>
+                          <p className="text-sm">{renderMessageContent(msg.content)}</p>
                           <p className={cn(
                             "text-xs mt-1",
                             isMine ? "text-primary-foreground/70" : "text-muted-foreground"
@@ -319,6 +371,20 @@ const Messages = () => {
                     }}
                     className="flex gap-2"
                   >
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="outline"
+                          onClick={handleShareWhatsApp}
+                          disabled={sending}
+                        >
+                          <Phone className="w-4 h-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>Share WhatsApp number</TooltipContent>
+                    </Tooltip>
                     <Input
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
