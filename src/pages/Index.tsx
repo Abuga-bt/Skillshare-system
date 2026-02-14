@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Layout } from '@/components/Layout';
 import { Footer } from '@/components/Footer';
@@ -19,6 +21,23 @@ import {
 
 const Index = () => {
   const { user } = useAuth();
+  const [stats, setStats] = useState({ skills: 0, members: 0, exchanges: 0 });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const [skillsRes, profilesRes, exchangesRes] = await Promise.all([
+        supabase.from('skills').select('id', { count: 'exact', head: true }),
+        supabase.from('profiles').select('id', { count: 'exact', head: true }),
+        supabase.from('exchange_requests').select('id', { count: 'exact', head: true }),
+      ]);
+      setStats({
+        skills: skillsRes.count ?? 0,
+        members: profilesRes.count ?? 0,
+        exchanges: exchangesRes.count ?? 0,
+      });
+    };
+    fetchStats();
+  }, []);
 
   return (
     <Layout>
@@ -79,9 +98,9 @@ const Index = () => {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 mt-16 max-w-lg mx-auto animate-slide-up" style={{ animationDelay: '0.3s' }}>
             {[
-              { value: '12+', label: 'Skills Shared' },
-              { value: '12', label: 'Community Members' },
-              { value: '8', label: 'Exchanges Made' },
+              { value: `${stats.skills}+`, label: 'Skills Shared' },
+              { value: `${stats.members}`, label: 'Community Members' },
+              { value: `${stats.exchanges}`, label: 'Exchanges Made' },
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <div className="text-2xl md:text-3xl font-display font-bold text-foreground">{stat.value}</div>

@@ -40,6 +40,7 @@ interface SkillWithProfile {
     avatar_url: string | null;
     location: string;
   } | null;
+  rating?: { average_rating: number; total_reviews: number };
 }
 
 const Skills = () => {
@@ -79,10 +80,23 @@ const Skills = () => {
 
     const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
 
-    // Combine skills with profiles
+    // Fetch ratings for each unique user
+    const ratingResults = await Promise.all(
+      userIds.map(uid => supabase.rpc('get_user_rating', { user_uuid: uid }))
+    );
+    const ratingMap = new Map<string, { average_rating: number; total_reviews: number }>();
+    userIds.forEach((uid, i) => {
+      const data = ratingResults[i].data;
+      if (data && data.length > 0) {
+        ratingMap.set(uid, data[0]);
+      }
+    });
+
+    // Combine skills with profiles and ratings
     const skillsWithProfiles = skillsData.map(skill => ({
       ...skill,
-      profile: profileMap.get(skill.user_id) || null
+      profile: profileMap.get(skill.user_id) || null,
+      rating: ratingMap.get(skill.user_id),
     }));
 
     setSkills(skillsWithProfiles as SkillWithProfile[]);
@@ -238,6 +252,15 @@ const Skills = () => {
                         )}
                       </div>
                     </div>
+
+                    {skill.rating && skill.rating.total_reviews > 0 && (
+                      <div className="flex items-center gap-2 pt-2 border-t border-border">
+                        <StarRating rating={Math.round(skill.rating.average_rating)} size="sm" showValue={false} />
+                        <span className="text-xs text-muted-foreground">
+                          {skill.rating.average_rating.toFixed(1)} ({skill.rating.total_reviews} {skill.rating.total_reviews === 1 ? 'review' : 'reviews'})
+                        </span>
+                      </div>
+                    )}
 
                     {user && (
                       <Button

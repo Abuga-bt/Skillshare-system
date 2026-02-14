@@ -11,6 +11,7 @@ const footerLinks = {
   company: [
     { label: 'About Us', href: '/about' },
     { label: 'Help Center', href: '/help' },
+    { label: 'Contact Support', href: 'mailto:help@skillswap.com', external: true },
     { label: 'Community Guidelines', href: '/about' },
   ],
   legal: [
@@ -67,12 +68,21 @@ export const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
-                  <Link 
-                    to={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
+                  {'external' in link && link.external ? (
+                    <a
+                      href={link.href}
+                      className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link 
+                      to={link.href}
+                      className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

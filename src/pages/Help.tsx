@@ -143,10 +143,12 @@ const Help = () => {
                       Can't find what you're looking for? We're here to help.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                      <Button variant="secondary" className="gap-2">
-                        <Mail className="w-4 h-4" />
-                        Contact Support
-                      </Button>
+                      <a href="mailto:help@skillswap.com">
+                        <Button variant="secondary" className="gap-2">
+                          <Mail className="w-4 h-4" />
+                          Contact Support
+                        </Button>
+                      </a>
                       
                     </div>
                   </div>
