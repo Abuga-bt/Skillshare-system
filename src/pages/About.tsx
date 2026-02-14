@@ -41,9 +41,9 @@ const values = [
 
 const stats = [
   { value: "12+", label: "Skills Shared" },
-  { value: "12+", label: "Community Members" },
-  { value: "9+", label: "Exchanges Completed" },
-  { value: "20+", label: "Skill Categories" }
+  { value: "10+", label: "Community Members" },
+  { value: "7+", label: "Exchanges Completed" },
+  { value: "8+", label: "Skill Categories" }
 ];
 
 const guidelines = [
@@ -93,7 +93,7 @@ const About = () => {
                   Democratizing Knowledge Exchange
                 </h2>
                 <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                  We're on a mission to create a world where knowledge flows freely between people. 
+                  We're on a mission to create a world where knowledge flows between people. 
                   Where a retired teacher can share wisdom with a young entrepreneur, and a tech-savvy 
                   teenager can help neighbors navigate the digital world.
                 </p>

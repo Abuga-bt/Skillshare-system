@@ -147,12 +147,7 @@ const Help = () => {
                         <Mail className="w-4 h-4" />
                         Contact Support
                       </Button>
-                      <Link to="/messages">
-                        <Button variant="outline" className="gap-2 bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
-                          <MessageSquare className="w-4 h-4" />
-                          Community Forum
-                        </Button>
-                      </Link>
+                      
                     </div>
                   </div>
                   <div className="hidden md:block">

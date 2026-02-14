@@ -46,11 +46,11 @@ const Index = () => {
             Connect with neighbors, exchange skills, and build a stronger community through collaborative learning and mutual support.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          <div className="flex flex-col sm:flex-row gap-8 justify-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
             {user ? (
               <>
                 <Link to="/skills">
-                  <Button size="lg" className="gap-2 w-full sm:w-auto h-14 px-8 text-base rounded-xl btn-glow">
+                  <Button size="sm" className="gap-2 w-full sm:w-auto h-14 px-8 text-base rounded-xl btn-glow">
                     <Search className="w-5 h-5" /> Explore Skills
                   </Button>
                 </Link>
@@ -79,9 +79,9 @@ const Index = () => {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 mt-16 max-w-lg mx-auto animate-slide-up" style={{ animationDelay: '0.3s' }}>
             {[
-              { value: '500+', label: 'Skills Shared' },
-              { value: '1.2K', label: 'Community Members' },
-              { value: '3K+', label: 'Exchanges Made' },
+              { value: '12+', label: 'Skills Shared' },
+              { value: '12', label: 'Community Members' },
+              { value: '8', label: 'Exchanges Made' },
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <div className="text-2xl md:text-3xl font-display font-bold text-foreground">{stat.value}</div>
@@ -96,9 +96,7 @@ const Index = () => {
       <section className="py-24 px-4 bg-secondary/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-medium mb-4">
-              Simple Process
-            </span>
+            
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">How It Works</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Get started in minutes and connect with skilled neighbors

@@ -307,7 +307,7 @@ const Profile = () => {
                       id="phone"
                       value={profile?.phone || ''}
                       onChange={(e) => setProfile(prev => prev ? { ...prev, phone: e.target.value } : null)}
-                      placeholder="+1 234 567 890"
+                      placeholder="+254 234 567 890"
                     />
                   </div>
                 </div>

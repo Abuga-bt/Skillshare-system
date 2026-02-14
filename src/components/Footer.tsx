@@ -88,7 +88,7 @@ export const Footer = () => {
               to="/auth"
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
             >
-              <Mail className="w-4 h-4" />
+              
               Get Started
             </Link>
           </div>
@@ -101,9 +101,9 @@ export const Footer = () => {
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
-            <span>© {currentYear} SkillSwap. Made with</span>
-            <Heart className="w-4 h-4 text-destructive fill-destructive" />
-            <span>for communities</span>
+            <span>© {currentYear} SkillSwap </span>
+            
+    
           </div>
           
           <div className="flex items-center gap-6">
