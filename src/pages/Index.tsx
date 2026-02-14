@@ -50,7 +50,7 @@ const Index = () => {
             {user ? (
               <>
                 <Link to="/skills">
-                  <Button size="lg" className="gap-2 w-full sm:w-auto h-14 px-8 text-base rounded-xl btn-glow">
+                  <Button size="sm" className="gap-2 w-full sm:w-auto h-14 px-8 text-base rounded-xl btn-glow">
                     <Search className="w-5 h-5" /> Explore Skills
                   </Button>
                 </Link>
