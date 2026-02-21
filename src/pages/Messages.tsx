@@ -6,11 +6,12 @@ import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Loader2, Send, Phone } from 'lucide-react';
+import { Loader2, Send, Phone, ShieldAlert } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/hooks/use-toast';
+import { moderateContent } from '@/lib/moderation';
 
 interface Message {
   id: string;
@@ -205,6 +206,18 @@ const Messages = () => {
   const handleSendMessage = async () => {
     if (!newMessage.trim() || !selectedUser || !user) return;
     setSending(true);
+
+    // Content moderation check
+    const modResult = await moderateContent(newMessage.trim());
+    if (modResult.flagged) {
+      toast({
+        title: 'Message blocked',
+        description: modResult.reason || 'Your message contains inappropriate content.',
+        variant: 'destructive',
+      });
+      setSending(false);
+      return;
+    }
 
     const { error } = await supabase.from('messages').insert({
       sender_id: user.id,

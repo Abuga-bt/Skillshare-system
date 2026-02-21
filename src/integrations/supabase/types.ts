@@ -89,6 +89,7 @@ export type Database = {
           created_at: string
           full_name: string
           id: string
+          is_verified_provider: boolean
           location: string | null
           phone: string | null
           updated_at: string
@@ -100,6 +101,7 @@ export type Database = {
           created_at?: string
           full_name?: string
           id?: string
+          is_verified_provider?: boolean
           location?: string | null
           phone?: string | null
           updated_at?: string
@@ -111,6 +113,7 @@ export type Database = {
           created_at?: string
           full_name?: string
           id?: string
+          is_verified_provider?: boolean
           location?: string | null
           phone?: string | null
           updated_at?: string
@@ -162,6 +165,7 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          is_featured: boolean
           is_offering: boolean
           title: string
           updated_at: string
@@ -172,6 +176,7 @@ export type Database = {
           created_at?: string
           description: string
           id?: string
+          is_featured?: boolean
           is_offering?: boolean
           title: string
           updated_at?: string
@@ -182,6 +187,7 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          is_featured?: boolean
           is_offering?: boolean
           title?: string
           updated_at?: string

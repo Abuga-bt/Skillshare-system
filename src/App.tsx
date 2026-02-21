@@ -12,6 +12,7 @@ import Exchanges from "./pages/Exchanges";
 import Messages from "./pages/Messages";
 import Help from "./pages/Help";
 import About from "./pages/About";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/messages" element={<Messages />} />
             <Route path="/help" element={<Help />} />
             <Route path="/about" element={<About />} />
+            <Route path="/pricing" element={<Pricing />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

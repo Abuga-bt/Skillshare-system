@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Users, Search, MessageSquare, ArrowRightLeft, User, LogOut, Menu, X } from 'lucide-react';
+import { Users, Search, MessageSquare, ArrowRightLeft, User, LogOut, Menu, X, Crown } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -28,6 +28,7 @@ export const Navbar = () => {
     { href: '/skills', label: 'Browse Skills', icon: Search },
     { href: '/exchanges', label: 'Exchanges', icon: ArrowRightLeft },
     { href: '/messages', label: 'Messages', icon: MessageSquare },
+    { href: '/pricing', label: 'Pricing', icon: Crown },
   ];
 
   const isActive = (path: string) => location.pathname === path;
