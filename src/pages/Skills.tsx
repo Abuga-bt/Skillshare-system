@@ -9,9 +9,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { StarRating } from '@/components/StarRating';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Search, MapPin, MessageSquare, ArrowRightLeft } from 'lucide-react';
+import { Loader2, Search, MapPin, MessageSquare, ArrowRightLeft, BadgeCheck, Crown } from 'lucide-react';
 import { SKILL_CATEGORIES, SkillCategory } from '@/lib/categories';
 import { useAuth } from '@/contexts/AuthContext';
+import { moderateContent } from '@/lib/moderation';
+import { cn } from '@/lib/utils';
 import {
   Select,
   SelectContent,
@@ -34,11 +36,13 @@ interface SkillWithProfile {
   description: string;
   category: SkillCategory;
   is_offering: boolean;
+  is_featured: boolean;
   user_id: string;
   profile: {
     full_name: string;
     avatar_url: string | null;
     location: string;
+    is_verified_provider: boolean;
   } | null;
   rating?: { average_rating: number; total_reviews: number };
 }
@@ -75,7 +79,7 @@ const Skills = () => {
     const userIds = [...new Set(skillsData.map(s => s.user_id))];
     const { data: profiles } = await supabase
       .from('profiles')
-      .select('user_id, full_name, avatar_url, location')
+      .select('user_id, full_name, avatar_url, location, is_verified_provider')
       .in('user_id', userIds);
 
     const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
@@ -126,6 +130,18 @@ const Skills = () => {
     }
 
     setSendingRequest(true);
+
+    // Content moderation check
+    const modResult = await moderateContent(exchangeMessage.trim());
+    if (modResult.flagged) {
+      toast({
+        title: 'Message blocked',
+        description: modResult.reason || 'Your message contains inappropriate content.',
+        variant: 'destructive',
+      });
+      setSendingRequest(false);
+      return;
+    }
 
     const { error } = await supabase.from('exchange_requests').insert({
       requester_id: user.id,
@@ -216,11 +232,18 @@ const Skills = () => {
               const Icon = category.icon;
 
               return (
-                <Card key={skill.id} className="card-elevated hover:scale-[1.02] transition-transform">
+                <Card key={skill.id} className={cn("card-elevated hover:scale-[1.02] transition-transform", skill.is_featured && "ring-2 ring-accent/50")}>
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between">
-                      <div className={`p-2 rounded-lg ${category.color}`}>
-                        <Icon className="w-5 h-5" />
+                      <div className="flex items-center gap-2">
+                        <div className={`p-2 rounded-lg ${category.color}`}>
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        {skill.is_featured && (
+                          <Badge variant="outline" className="text-accent border-accent gap-1 text-xs">
+                            <Crown className="w-3 h-3" /> Featured
+                          </Badge>
+                        )}
                       </div>
                       <Badge variant={skill.is_offering ? 'default' : 'outline'}>
                         {skill.is_offering ? 'Offering' : 'Seeking'}
@@ -241,8 +264,11 @@ const Skills = () => {
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">
+                        <p className="text-sm font-medium truncate flex items-center gap-1">
                           {skill.profile?.full_name || 'Anonymous'}
+                          {skill.profile?.is_verified_provider && (
+                            <BadgeCheck className="w-4 h-4 text-primary flex-shrink-0" />
+                          )}
                         </p>
                         {skill.profile?.location && (
                           <p className="text-xs text-muted-foreground flex items-center gap-1">
